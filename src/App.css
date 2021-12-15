@@ -36,3 +36,20 @@
     transform: rotate(360deg);
   }
 }
+
+.card {
+  width: 18rem;
+  margin: auto;
+  background-color: #999;
+  padding: 1rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  margin-top: 1rem;
+}
+.card button {
+  width: auto;
+  border: 0;
+  background-color: transparent;
+  color: #61dafb;
+  border-radius: 5px;
+}

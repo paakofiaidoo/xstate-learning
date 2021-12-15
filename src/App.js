@@ -59,10 +59,11 @@ const Card = ({ text }) => {
   console.log(current);
   let content = current.context.output;
   return (
-    <div>
+    <div className="card" >
       <p>{content}</p>
-      <button disabled={current.value === "disabled"} onClick={() => send("CLIP")}>{current.value === "clipped" ? "Read More" : "Read less"}</button>
-    </div>
+      <button disabled={current.value === "disabled"} style={current.value === "disabled" ? { display: "none" } : null}
+        onClick={() => send("CLIP")}>{current.value === "clipped" ? "Read More" : "Read less"}</button>
+    </div >
   )
 }
 
