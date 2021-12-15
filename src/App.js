@@ -1,11 +1,80 @@
+import React from "react";
+import "./App.css";
+import data from "./data.json";
+import { Machine, assign } from "xstate";
+import { useMachine } from "@xstate/react";
 
-import './App.css';
+const textMachine = Machine({
+  id: "clipper",
+  initial: "start",
+  states: {
+    start: {
+      always: [{
+        target: "clipped",
+        cond: "isClipable"
+      }, {
+        target: "disabled",
+      }]
+    },
+    clipped: {
+      onEntry: "clip",
+      on: {
+        CLIP: { target: "unclipped" },
+      },
+    },
+    unclipped: {
+      onEntry: "unclip",
+      on: {
+        CLIP: { target: "clipped" },
+      },
+    },
+    disabled: {}
+  },
+},
+  {
+    guards: {
+      isClipable: (context) => context.text.length > 50
+    },
+    actions: {
+      clip: assign((context, event) => {
+        return {
+          ...context,
+          output: context.text.slice(0, 20)
+        }
+      }),
+      unclip: assign((context, event) => {
+        return {
+          ...context,
+          output: context.text
+        }
+      })
+    }
+  });
+
+
+const Card = ({ text }) => {
+  const [current, send] = useMachine(textMachine, {
+    context: { text, output: text }
+  });
+  console.log(current);
+  let content = current.context.output;
+  return (
+    <div>
+      <p>{content}</p>
+      <button disabled={current.value === "disabled"} onClick={() => send("CLIP")}>{current.value}</button>
+    </div>
+  )
+}
 
 function App() {
   return (
     <div className="App">
-      <p>Checkbox</p>
-      <input type="checkbox" />
+      {data.map((item, index) => {
+        return (
+          <Card key={index} text={item} />
+        )
+      }
+      )}
     </div>
   );
 }
