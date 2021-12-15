@@ -61,7 +61,7 @@ const Card = ({ text }) => {
   return (
     <div>
       <p>{content}</p>
-      <button disabled={current.value === "disabled"} onClick={() => send("CLIP")}>{current.value}</button>
+      <button disabled={current.value === "disabled"} onClick={() => send("CLIP")}>{current.value === "clipped" ? "Read More" : "Read less"}</button>
     </div>
   )
 }
